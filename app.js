@@ -1,4 +1,4 @@
-const CATS=[['top','بلوزة','👕'],['bottom','بنطال|تنورة','👖'],['jacket','جاكيت','🧥'],['shoes','حذاء','👟'],['acc','إكسسوار','🧢']];
+const CATS=[['top','بلوزة','👕'],['bottom','بنطال','👖'],['jacket','جاكيت','🧥'],['shoes','حذاء','👟'],['acc','إكسسوار','🧢']];
 const WX=[['hot','☀️ حار'],['mild','🌤️ معتدل'],['rain','🌧️ مطر'],['cold','❄️ بارد']];
 const VIEWS=[['wardrobe','خزانتي'],['stylist','المصمّمة ✨'],['build','ركّب لبسة'],['tomorrow','لبسة بكرا']];
 const $=s=>document.querySelector(s);
@@ -99,3 +99,12 @@ if(D.act=='saveo'){S.outfits.push({id:String(Date.now()),name:'لبسة '+(S.out
 S.tm={ids,w:S.tm.w,ok:[]};save();return go('tomorrow')}
 });
 render();
+
+const STEPS=[['📸','صوّر قطعك','صوّر كل قطعة من خزانتك مرة وحدة، والموقع بيسمّيها ويصنّفها (فوق، تحت، حذاء…) وبتضل محفوظة على جهازك.'],['✨','خلّي المصمّمة تنسّق','اختار المناسبة وحرارة بكرا، والمصمّمة بتركّبلك لبسة من قطعك. بتقدر تغيّرها لحد ما تعجبك.'],['🌙','جهّز لبسة بكرا','اعتمد اللبسة الليلة وعلّم كل قطعة "جاهزة" لما تكويها. هيك الصبح ما بتضيع وقتك.']];
+function showGuide(){const g=$('#guide');let i=0;const close=()=>{g.hidden=true;document.removeEventListener('keydown',esc);try{localStorage.setItem('grwm_seen','1')}catch(x){}};const esc=e=>{if(e.key=='Escape')close()};
+const draw=()=>{const s=STEPS[i],last=i==STEPS.length-1;g.innerHTML=`<div class="gcard"><div class="gem" aria-hidden="true">${s[0]}</div><h2 id="gt">${s[1]}</h2><p>${s[2]}</p><div class="dots" aria-hidden="true">${STEPS.map((_,k)=>`<i class="${k==i?'on':''}"></i>`).join('')}</div><div class="gact">${last?'':'<button class="btn alt" data-g="skip">تخطّي</button>'}<button class="btn" data-g="next" id="gn">${last?'يلا نبدأ':'التالي'}</button></div></div>`;$('#gn').focus()};
+g.hidden=false;draw();document.addEventListener('keydown',esc);g.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.g=='next'&&i<STEPS.length-1){i++;return draw()}close()}}
+$('#help').onclick=showGuide;
+(function(){const sp=$('#splash');let seen=null,gone=false;try{seen=localStorage.getItem('grwm_seen')}catch(e){}
+const done=()=>{if(gone)return;gone=true;sp.classList.add('out');setTimeout(()=>sp.remove(),600);if(!seen)showGuide()};
+const t=setTimeout(done,1900);sp.onclick=()=>{clearTimeout(t);done()}})();
