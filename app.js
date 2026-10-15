@@ -100,7 +100,7 @@ S.tm={ids,w:S.tm.w,ok:[]};save();return go('tomorrow')}
 });
 render();
 
-const STEPS=[['📸','صوّر قطعك','صوّر كل قطعة من خزانتك مرة وحدة، والموقع بيسمّيها ويصنّفها (فوق، تحت، حذاء…) وبتضل محفوظة على جهازك.'],['✨','خلّي المصمّمة تنسّق','اختار المناسبة وحرارة بكرا، والمصمّمة بتركّبلك لبسة من قطعك. بتقدر تغيّرها لحد ما تعجبك.'],['🌙','جهّز لبسة بكرا','اعتمد اللبسة الليلة وعلّم كل قطعة "جاهزة" لما تكويها. هيك الصبح ما بتضيع وقتك.']];
+const STEPS=[['📸','صوّر قطعك','صوّر كل قطعة من خزانتك مرة وحدة، والموقع بيسمّيها ويصنّفها (بلوزة, بنطال, حذاء…) وبتضل محفوظة على جهازك.'],['✨','خلّي المصمّمة تنسّق','اختار المناسبة وطقس بكرا، والمصمّمة بتركّبلك لبسة من قطعك. بتقدر تغيّرها لحد ما تعجبك.'],['🌙','جهّز لبسة بكرا','اعتمد اللبسة الليلة وعلّم كل قطعة "جاهزة" حتى تكويها. هيك الصبح ما بتضيع وقتك.']];
 function showGuide(){const g=$('#guide');let i=0;const close=()=>{g.hidden=true;document.removeEventListener('keydown',esc);try{localStorage.setItem('grwm_seen','1')}catch(x){}};const esc=e=>{if(e.key=='Escape')close()};
 const draw=()=>{const s=STEPS[i],last=i==STEPS.length-1;g.innerHTML=`<div class="gcard"><div class="gem" aria-hidden="true">${s[0]}</div><h2 id="gt">${s[1]}</h2><p>${s[2]}</p><div class="dots" aria-hidden="true">${STEPS.map((_,k)=>`<i class="${k==i?'on':''}"></i>`).join('')}</div><div class="gact">${last?'':'<button class="btn alt" data-g="skip">تخطّي</button>'}<button class="btn" data-g="next" id="gn">${last?'يلا نبدأ':'التالي'}</button></div></div>`;$('#gn').focus()};
 g.hidden=false;draw();document.addEventListener('keydown',esc);g.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.g=='next'&&i<STEPS.length-1){i++;return draw()}close()}}
